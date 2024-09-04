@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Access Control</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4a90e2, #50e3c2);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            /* Prevent horizontal overflow */
+        }
+
+        h1 {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        .date-picker-container {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        #datePicker {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            flex: 1;
+        }
+
+        .calendar-icon {
+            margin-left: 10px;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            fill: #333;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #555;
+            transform: scale(1.05);
+        }
+
+        table {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            /* Initially hide the table */
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0056b3;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        tr:hover {
+            background-color: #d9eaff;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+        }
+
+        .date-time {
+            text-align: center;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f0f4f8;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .date-picker-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .date-input {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 200px;
+            margin-right: 8px;
+        }
+
+        .calendar-icon {
+            width: 24px;
+            height: 24px;
+            fill: #555;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+        }
+
+        .event-type-container {
+            margin-left: 20px;
+        }
+
+        .event-filter {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: white;
+            width: 150px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .showLogsBtn,
+        .filterLogsBtn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .showLogsBtn:hover,
+        .filterLogsBtn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>View Logs</h1>
+
+    <div class="filter-container">
+        <div class="date-picker-container">
+            <input type="text" id="datePicker" class="date-input" placeholder="Select a date to filter">
+            <svg id="calendarIcon" class="calendar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                    d="M19 3h-1V1h-2v2H8V1H6v2H5C3.897 3 3 3.897 3 5v15c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM5 20V9h14l.002 11H5zM19 7H5V5h14v2z">
+                </path>
+            </svg>
+        </div>
+
+        <div class="event-type-container">
+            <select id="eventTypeFilter" class="event-filter">
+                <option value="">All Events</option>
+                <option value="Access Granted">Access Granted</option>
+                <option value="Access Denied">Access Denied</option>
+                <option value="new_user">New User Registered</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button class="filterLogsBtn" id="filterLogsBtn">Filter Logs</button>
+        <button class="showLogsBtn" id="showLogsBtn">Show All Logs</button>
+    </div>
+
+    <!-- Log table -->
+    <table id="log-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Event Type</th>
+            </tr>
+        </thead>
+        <tbody id="log-body"></tbody>
+    </table>
+
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS
+        (function () {
+            emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS User ID
+        })();
+
+        function sendEmail(logData) {
+            const templateParams = {
+                event_type: logData.eventType,
+                event_time: logData.timestamp,
+                recipient_email: 'lmsbuddy320@gmail.com'
+            };
+
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then((response) => {
+                    console.log('Email sent successfully!', response.status, response.text);
+                }, (error) => {
+                    console.error('Failed to send email:', error);
+                });
+        }
+
+        // Initialize Firebase services
+        const db = firebase.database();
+        const storage = firebase.storage();
+
+        // Get DOM elements
+        const showLogsBtn = document.getElementById('showLogsBtn');
+        const filterLogsBtn = document.getElementById('filterLogsBtn');
+        const logTable = document.getElementById('log-table');
+        const logBody = document.getElementById('log-body');
+        const datePicker = document.getElementById('datePicker');
+        const calendarIcon = document.getElementById('calendarIcon');
+
+        // Initialize Flatpickr
+        const fp = flatpickr("#datePicker", {
+            dateFormat: "Y-m-d",
+        });
+
+        // Open the date picker when the calendar icon is clicked
+        calendarIcon.addEventListener("click", () => {
+            fp.open();
+        });
+
+        // Show logs button event listener
+        showLogsBtn.addEventListener('click', showAllLogs);
+
+        // Filter logs button event listener
+        filterLogsBtn.addEventListener('click', filterLogs);
+
+        function showAllLogs() {
+            db.ref('access_logs').once('value', (snapshot) => {
+                logBody.innerHTML = ''; // Clear the table
+                const logs = snapshot.val();
+                if (logs) {
+                    Object.values(logs).forEach(log => {
+                        addLogToTable(log);
+                        sendEmail(log); // Send email for each log
+                    });
+                }
+                logTable.style.display = 'table'; // Show the table
+            });
+        }
+
+        function filterLogs() {
+            const selectedDate = datePicker.value;
+            const selectedEventType = document.getElementById('eventTypeFilter').value;
+
+            db.ref('access_logs').once('value', (snapshot) => {
+                logBody.innerHTML = ''; // Clear the table
+                const logs = snapshot.val();
+                if (logs) {
+                    Object.values(logs).forEach(log => {
+                        const logDate = log.timestamp.split(' ')[0];
+                        const matchesDate = selectedDate === '' || logDate === selectedDate;
+                        const matchesEventType = selectedEventType === '' || log.eventType === selectedEventType;
+
+                        if (matchesDate && matchesEventType) {
+                            addLogToTable(log);
+                            sendEmail(log); // Send email for each filtered log
+                        }
+                    });
+                }
+                logTable.style.display = 'table'; // Show the table
+            });
+        }
+
+        function addLogToTable(log) {
+            const logRow = document.createElement('tr');
+
+            const imgCell = document.createElement('td');
+            const dateCell = document.createElement('td');
+            const timeCell = document.createElement('td');
+            const eventTypeCell = document.createElement('td');
+
+            const img = document.createElement('img');
+            storage.ref(log.imagePath).getDownloadURL().then(url => {
+                img.src = url;
+            });
+
+            imgCell.appendChild(img);
+            const [logDate, logTime] = log.timestamp.split(' ');
+            dateCell.textContent = logDate;
+            timeCell.textContent = logTime;
+            eventTypeCell.textContent = log.eventType;
+
+            logRow.appendChild(imgCell);
+            logRow.appendChild(dateCell);
+            logRow.appendChild(timeCell);
+            logRow.appendChild(eventTypeCell);
+
+            logBody.appendChild(logRow);
+        }
+    </script>
+</body>
+
+</html>

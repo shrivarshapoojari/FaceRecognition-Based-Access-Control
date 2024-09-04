@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Access Control</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4a90e2, #50e3c2);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            /* Prevent horizontal overflow */
+        }
+
+        h1 {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            /* Include padding and border in element’s total width and height */
+        }
+
+        #webcam {
+            border: 2px solid #333;
+            border-radius: 8px;
+            width: 100%;
+            /* Make webcam container responsive */
+            max-width: 500px;
+            /* Set a maximum width */
+            margin-top: 30px;
+            /* Add margin to create space below the title */
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #555;
+            transform: scale(1.05);
+        }
+
+        table {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        th {
+            background-color: #4a90e2;
+            color: #fff;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .date-time {
+            text-align: center;
+        }
+
+        #datePicker {
+            margin: 20px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 100%;
+            /* Make date picker responsive */
+            max-width: 300px;
+            /* Set a maximum width */
+            box-sizing: border-box;
+        }
+
+        .date-picker-container {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+            flex-wrap: wrap;
+            /* Allow items to wrap if needed */
+        }
+
+        .calendar-icon {
+            margin-left: -45px;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            fill: #4a90e2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Register New User</h1>
+
+    <!-- Webcam video -->
+    <video id="webcam" autoplay style="display: none;"></video>
+    <button id="registerBtn">Register User</button>
+    <button id="cancel">Cancel</button>
+    <button id="uploadBtn" style="display: none;">Upload Image</button>
+
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init({
+              publicKey: "h7ma3KDUemAnmp-G6",
+            });
+        })();
+     
+
+        function sendEmail() {
+            const templateParams = {
+                event_type: "NEW REGISTRATION",
+                event_time: new Date().toLocaleString(),
+                recipient_email: 'lmsbuddy320@gmail.com'
+            };
+
+            emailjs.send('service_hh352bm', 'template_639vliw', templateParams)
+                .then((response) => {
+                    console.log('Email sent successfully!', response.status, response.text);
+                }, (error) => {
+                    console.error('Failed to send email:', error);
+                });
+        }
+       </script>
+
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Your Firebase config -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7oFE-if_vx3D4nQ4e7KKcwZo-Dej9qhQ",
+            authDomain: "facedetection-92a73.firebaseapp.com",
+            projectId: "facedetection-92a73",
+            storageBucket: "facedetection-92a73.appspot.com",
+            messagingSenderId: "398813687167",
+            appId: "1:398813687167:web:238e9aa74608f3ba353e4a"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script>
+        // Initialize Firebase services
+        const db = firebase.database();
+        const storage = firebase.storage();
+
+        // Get DOM elements
+        const webcamElement = document.getElementById('webcam');
+        const registerBtn = document.getElementById('registerBtn');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const cancelbtn = document.getElementById('cancel');
+
+        let stream = null; // Store the video stream
+
+        // Initialize Flatpickr
+        flatpickr("#datePicker", {
+            dateFormat: "Y-m-d",
+        });
+
+        // Start webcam when "Register User" button is clicked
+        registerBtn.addEventListener('click', () => {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((videoStream) => {
+                    stream = videoStream;
+                    webcamElement.srcObject = stream;
+                    webcamElement.style.display = 'block';
+                    uploadBtn.style.display = 'block';
+                    registerBtn.style.display = 'none';
+                })
+                .catch((err) => {
+                    console.error('Error accessing webcam: ', err);
+                });
+        });
+
+        // Function to capture an image from the webcam
+        function captureImage() {
+            const canvas = document.createElement('canvas');
+            canvas.width = webcamElement.videoWidth;
+            canvas.height = webcamElement.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(webcamElement, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg');
+        }
+
+        // Upload image to Firebase Storage and save log to Realtime Database
+        uploadBtn.addEventListener('click', () => {
+            const imageData = captureImage();
+            const timestamp = new Date().toISOString();
+            const imageName=new Date().getTime();
+            const storageRefPath = `faces/${imageName}.jpg`;
+            const imageRef = storage.ref(storageRefPath);
+
+            imageRef.putString(imageData, 'data_url').then((snapshot) => {
+                snapshot.ref.getDownloadURL().then((url) => {
+                    const logRef = db.ref('logs/');
+                    logRef.push({
+                        url: url,
+                        timestamp: timestamp,
+                        eventType: 'new_user'
+                    }).then(() => {
+                        alert('User registered and log saved.');
+                        sendEmail();
+                        stopWebcam(); // Stop webcam after upload
+                        webcamElement.style.display = 'none';
+                        uploadBtn.style.display = 'none';
+                        registerBtn.style.display = 'block';
+                    });
+                });
+            });
+        });
+
+        cancelbtn.addEventListener('click', () => {
+            stopWebcam();
+            webcamElement.style.display = 'none';
+            uploadBtn.style.display = 'none';
+            registerBtn.style.display = 'block';
+        });
+
+        // Function to stop the webcam
+        function stopWebcam() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        }
+
+        // Helper function to format the timestamp in IST
+        function formatTimestamp(isoString) {
+            const date = new Date(isoString);
+
+            // Convert to IST (Indian Standard Time)
+            const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+
+            const formattedDate = date.toLocaleDateString('en-IN', optionsDate);
+            const formattedTime = date.toLocaleTimeString('en-IN', optionsTime);
+
+            return { date: formattedDate, time: formattedTime };
+        }
+    </script>
+     
+</body>
+
+</html>

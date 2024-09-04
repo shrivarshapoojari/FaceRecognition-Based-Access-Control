@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Control Log</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href="styleNew.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!--Nav Bar-->
+    <div class="px-3 py-2 text-bg-dark border-bottom fixed-top">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li>
+                        <a href="#home" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#home"></use><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                    height="20" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+                                </svg>
+                            </svg>
+                            Home
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#register" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#speedometer2"></use><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                    height="20" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                                    <path
+                                        d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                                    <path fill-rule="evenodd"
+                                        d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5" />
+                                </svg>
+                            </svg>
+                            Register
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#log" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#table"></use><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                    height="20" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+                                    <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
+                                    <path
+                                        d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z" />
+                                </svg>
+                            </svg>
+                            Log
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#help" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#grid"></use><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                    height="20" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path
+                                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94" />
+                                </svg>
+                            </svg>
+                            Help
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#people-circle"></use><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="20" height="20" fill="currentColor" class="bi bi-file-person"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                    <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                                </svg>
+                            </svg>
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--Home-->
+    <div id="home">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5 px-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="images/Screenshot 2024-08-11 195150.png" class="d-block mx-lg-auto img-fluid"
+                    alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold text-body-emphasis lh-3 mb-2 px-3">Register and Maintain access</h1>
+                <p class="lead px-3">Welcome to our Biometric Security System, where advanced facial recognition
+                    technology meets seamless, user-friendly design. Our solution transcends traditional security
+                    measures, providing a robust and reliable method for protecting your home or organization. With
+                    real-time monitoring, secure cloud integration, and effortless access control, our system ensures
+                    that your safety is never compromised. Explore how we combine innovation with simplicity to deliver
+                    unparalleled security, accessible from anywhere at any time.</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <!--Register-->> <div id="register">
+        <h2 id="H2">Register new user here!</h2>
+        <br>
+        <br>
+
+        <div class="notification" id="notification"></div>
+        <div class="Container">
+            <h1 class="H1">Access Control Log</h1>
+            <button id="register-face-button">Register New Face</button>
+            <div id="log-container"></div>
+        </div>
+
+        <!-- Webcam Modal -->
+        <div id="webcam-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="close">&times;</span>
+                <video id="webcam" autoplay></video>
+                <canvas id="capture-canvas" style="display: none;"></canvas>
+                <button id="capture-button">Capture</button>
+                <button id="upload-button" disabled>Upload</button>
+                <button id="recapture-button" style="display: none;">Re-capture</button>
+                <div id="captured-image-container" style="display: none;">
+                    <img id="captured-image" style="width: 100%; height: auto; border-radius: 10px;" />
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+            import { getFirestore, collection, query, orderBy, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+            import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
+            import { getDatabase, ref as dbRef, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyA7oFE-if_vx3D4nQ4e7KKcwZo-Dej9qhQ",
+                authDomain: "facedetection-92a73.firebaseapp.com",
+                databaseURL: "https://facedetection-92a73-default-rtdb.firebaseio.com",
+                projectId: "facedetection-92a73",
+                storageBucket: "facedetection-92a73.appspot.com",
+                messagingSenderId: "398813687167",
+                appId: "1:398813687167:web:238e9aa74608f3ba353e4a"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const storage = getStorage(app);
+            const realtimeDb = getDatabase(app);
+
+            const logContainer = document.getElementById('register-time-container');
+
+            const q = query(collection(db, "access_logs"), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                logContainer.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const log = doc.data();
+                    const logEntry = document.createElement('div');
+                    logEntry.className = 'log-entry';
+
+                    // Fetch photo from Firebase Storage
+                    getDownloadURL(ref(storage, log.photoPath)).then(url => {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        logEntry.appendChild(img);
+                    });
+
+                    var details = document.createElement('div');
+                    details.className = 'details';
+
+                    // Correctly handle Firestore Timestamp
+                    let formattedDate;
+                    if (log.timestamp.toDate) {
+                        const timestamp = log.timestamp.toDate(); // Convert Firestore Timestamp to JavaScript Date
+                        formattedDate = timestamp.toLocaleString(); // Format the date
+                    } else {
+                        var d = Date.now();
+                        var date = new Date(d);
+                        formattedDate = date.toLocaleString();
+                    }
+
+                    details.innerHTML = `
+                <h2>${log.accessGranted ? 'Access Granted' : 'Access Denied'}</h2>
+                <p>${formattedDate}</p>
+            `;
+                    logEntry.appendChild(details);
+
+                    logContainer.appendChild(logEntry);
+                });
+            });
+
+            // Webcam capture and upload
+            const registerFaceButton = document.getElementById('register-face-button');
+            const webcamModal = document.getElementById('webcam-modal');
+            const closeModal = document.getElementById('close-modal');
+            const webcam = document.getElementById('webcam');
+            const captureButton = document.getElementById('capture-button');
+            const uploadButton = document.getElementById('upload-button');
+            const recaptureButton = document.getElementById('recapture-button');
+            const notification = document.getElementById('notification');
+            const capturedImage = document.getElementById('captured-image');
+            const captureCanvas = document.getElementById('capture-canvas');
+            const capturedImageContainer = document.getElementById('captured-image-container');
+
+            let stream = null;
+            let imageData = null;
+
+            registerFaceButton.onclick = () => {
+                // Redirect to index2.html
+                window.location.href = 'register.html';
+            };
+
+        </script>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+
+    <!--Log-->
+    <div id="log">
+        <h2 id="H2">Watch your log here!</h2>
+        <br>
+        <br>
+        <div class="notification" id="log-notification"></div>
+        <div class="Container">
+            <h1 class="H1">Access Control Log</h1>
+            <button id="view-register-time-button">View Log</button>
+            <div id="log-entries-container"></div>
+        </div>
+
+        <!-- Log Modal -->
+        <div id="register-time-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-time-modal" class="close">&times;</span>
+                <h2>User Log</h2>
+                <div id="register-time-container"
+                    style="height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9;">
+                    <!-- Registration times will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            // Get elements
+            const viewRegisterTimeButton = document.getElementById('view-register-time-button');
+            const registerTimeModal = document.getElementById('register-time-modal');
+            const closeTimeModal = document.getElementById('close-time-modal');
+            const registerTimeContainer = document.getElementById('register-time-container');
+
+
+
+            // // Open Registration Time Modal
+            viewRegisterTimeButton.onclick = () => {
+                window.location.href = 'log.html';
+            };
+
+            // Close Registration Time Modal
+            closeTimeModal.onclick = () => {
+                registerTimeModal.style.display = 'none';
+            };
+
+            // Close modal if clicked outside of modal content
+            window.onclick = function (event) {
+                if (event.target === registerTimeModal) {
+                    registerTimeModal.style.display = 'none';
+                }
+            };
+
+        </script>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <!--Help-->
+    <div id="help">
+        <div class="row align-items-center g-lg-5 py-5 px-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Post your queries here</h1>
+                <p class="col-lg-10 fs-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque quo ea ducimus
+                    earum fugiat exercitationem voluptatem. Nulla aliquid dignissimos repellendus, pariatur eius, omnis
+                    porro harum asperiores sed corporis aspernatur beatae Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Illum dolorum, iure similique, temporibus laborum vel rerum ea pariatur sint in
+                    minima cumque nihil numquam ipsam quibusdam, dicta maiores excepturi ipsa.</p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+                <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput">
+                        <label for="text">Type </label>
+                    </div>
+
+                    <div class="checkbox mb-3">
+
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
+
+    <!--contact-->
+    <div id="contact">
+        <div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                        <svg class="bi" width="30" height="24">
+                            <use xlink:href="#bootstrap"></use>
+                        </svg>
+                    </a>
+                    <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
+                </div>
+
+                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
+                                <use xlink:href="#twitter"></use><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                                    <path
+                                        d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
+                                </svg>
+                            </svg></a></li>
+                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
+                                <use xlink:href="#instagram"></use><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+                                </svg>
+                            </svg></a></li>
+                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
+                                <use xlink:href="#facebook"></use><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                    <path
+                                        d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                                </svg>
+                            </svg></a></li>
+                </ul>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>
